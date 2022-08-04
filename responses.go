@@ -191,6 +191,9 @@ type RefundResponse struct {
 	ErrorResponse
 }
 
+// MutationRespCode is BRI API response code standard ( more at https://developers.bri.co.id/id/docs/account-statementv20 )
+const MutationRespCodeSuccess = "0000"
+
 type MutationResponse struct {
 	ResponseCode        string         `json:"responseCode"`
 	ResponseDescription string         `json:"responseDescription"`
