@@ -62,7 +62,7 @@ func (gateway *CoreGateway) GetToken() (res TokenResponse, err error) {
 func (gateway *CoreGateway) CreateVA(token string, req CreateVaRequest) (res VaResponse, err error) {
 	token = "Bearer " + token
 	method := "POST"
-	body, err := json.Marshal(req)
+	body, _ := json.Marshal(req)
 	timestamp := getTimestamp(BRI_TIME_FORMAT)
 	signature := generateSignature(VA_PATH, method, token, timestamp, string(body), gateway.Client.ClientSecret)
 
@@ -85,7 +85,7 @@ func (gateway *CoreGateway) CreateVA(token string, req CreateVaRequest) (res VaR
 func (gateway *CoreGateway) UpdateVA(token string, req CreateVaRequest) (res VaResponse, err error) {
 	token = "Bearer " + token
 	method := "PUT"
-	body, err := json.Marshal(req)
+	body, _ := json.Marshal(req)
 	timestamp := getTimestamp(BRI_TIME_FORMAT)
 	signature := generateSignature(VA_PATH, method, token, timestamp, string(body), gateway.Client.ClientSecret)
 
@@ -97,6 +97,52 @@ func (gateway *CoreGateway) UpdateVA(token string, req CreateVaRequest) (res VaR
 	}
 
 	err = gateway.Call(method, VA_PATH, headers, strings.NewReader(string(body)), &res, nil)
+
+	if err != nil {
+		return
+	}
+
+	return
+}
+
+func (gateway *CoreGateway) GetVA(token string, req GetVaRequest) (res VaResponse, err error) {
+	token = "Bearer " + token
+	method := "GET"
+	body := ""
+	path := VA_PATH + "/" + req.InstitutionCode + "/" + req.BrivaNo + "/" + req.CustCode
+	timestamp := getTimestamp(BRI_TIME_FORMAT)
+	signature := generateSignature(path, method, token, timestamp, string(body), gateway.Client.ClientSecret)
+
+	headers := map[string]string{
+		"Authorization": token,
+		"BRI-Timestamp": timestamp,
+		"BRI-Signature": signature,
+	}
+
+	err = gateway.Call(method, path, headers, strings.NewReader(string(body)), &res, nil)
+
+	if err != nil {
+		return
+	}
+
+	return
+}
+
+func (gateway *CoreGateway) UpdateStatusVA(token string, req UpdateStatusVaRequest) (res VaResponse, err error) {
+	token = "Bearer " + token
+	method := "PUT"
+	body, _ := json.Marshal(req)
+	path := VA_PATH + "/status"
+	timestamp := getTimestamp(BRI_TIME_FORMAT)
+	signature := generateSignature(path, method, token, timestamp, string(body), gateway.Client.ClientSecret)
+
+	headers := map[string]string{
+		"Authorization": token,
+		"BRI-Timestamp": timestamp,
+		"BRI-Signature": signature,
+	}
+
+	err = gateway.Call(method, path, headers, strings.NewReader(string(body)), &res, nil)
 
 	if err != nil {
 		return
@@ -154,7 +200,7 @@ func (gateway *CoreGateway) DeleteVA(token string, institutionCode string, briva
 func (gateway *CoreGateway) GetMutation(token string, req GetMutationRequest) (res MutationResponse, err error) {
 	token = "Bearer " + token
 	method := "POST"
-	body, err := json.Marshal(req)
+	body, _ := json.Marshal(req)
 	timestamp := getTimestamp(BRI_TIME_FORMAT)
 	signature := generateSignature(MUTATION_PATH, method, token, timestamp, string(body), gateway.Client.ClientSecret)
 	externalId := generateSha1Timestamp("mutation")
