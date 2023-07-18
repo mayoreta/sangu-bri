@@ -10,6 +10,19 @@ type CreateVaRequest struct {
 	ExpiredDate     string `json:"expiredDate"`
 }
 
+type GetVaRequest struct {
+	InstitutionCode string `json:"institutionCode"`
+	BrivaNo         string `json:"brivaNo"`
+	CustCode        string `json:"custCode"`
+}
+
+type UpdateStatusVaRequest struct {
+	InstitutionCode string `json:"institutionCode"`
+	BrivaNo         string `json:"brivaNo"`
+	CustCode        string `json:"custCode"`
+	StatusBayar     string `json:"statusBayar"`
+}
+
 type GetReportVaRequest struct {
 	InstitutionCode string
 	BrivaNo         string
