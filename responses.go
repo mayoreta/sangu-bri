@@ -21,6 +21,7 @@ type VaData struct {
 	Name            string `json:"nama"`
 	Amount          string `json:"amount"`
 	Description     string `json:"keterangan"`
+	StatusBayar     string `json:"statusBayar"`
 	ExpiredDate     string `json:"expiredDate"`
 }
 
@@ -76,18 +77,19 @@ type CardTokenOTPVerifyResponseData struct {
 }
 
 // ErrorResponse defines response data if error request.Example:
-// {
-//     "error": {
-//         "code": "0920",
-//         "message": "Expired OTP"
-//     },
-//     "status_code": 400,
-//     "status": {
-//         "code": "0602",
-//         "desc": "Invalid signature"
-//     },
-//     "recorded_at": "2020-03-12T03:58:46Z"
-// }
+//
+//	{
+//	    "error": {
+//	        "code": "0920",
+//	        "message": "Expired OTP"
+//	    },
+//	    "status_code": 400,
+//	    "status": {
+//	        "code": "0602",
+//	        "desc": "Invalid signature"
+//	    },
+//	    "recorded_at": "2020-03-12T03:58:46Z"
+//	}
 type ErrorResponse struct {
 	Error      ErrorDetail `json:"error"`
 	StatusCode int         `json:"status_code"`
@@ -95,24 +97,26 @@ type ErrorResponse struct {
 }
 
 // ErrorDetail defines response error detail. Example:
-// {
-//     "error": {
-//         "code": "0920",
-//         "message": "Expired OTP"
-//     }
-// }
+//
+//	{
+//	    "error": {
+//	        "code": "0920",
+//	        "message": "Expired OTP"
+//	    }
+//	}
 type ErrorDetail struct {
 	Code    string `json:"code"`
 	Message string `json:"message"`
 }
 
 // ErrorStatus defines error data if unauthorized. Example:
-// {
-//     "status": {
-//         "code": "0602",
-//         "desc": "Invalid signature"
-//     }
-// }
+//
+//	{
+//	    "status": {
+//	        "code": "0602",
+//	        "desc": "Invalid signature"
+//	    }
+//	}
 type ErrorStatus struct {
 	Code string `json:"code"`
 	Desc string `json:"desc"`
